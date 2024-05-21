@@ -1,0 +1,106 @@
+---
+title: "Data Visualization"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+#Download dataset
+```{r}
+data <- read.csv("/Users/sanzidaakhteranee/Documents/HackBio_Contest/figure_one_k.csv", header= TRUE, sep = ",")
+print(data)
+```
+
+
+#Remove column
+```{r}
+data <-subset (data, select = -X)
+print(data)
+```
+
+
+#Divide a data vector into groups as defined by technology
+```{r}
+partitions <- split(data, data$tech)
+print(partitions)
+```
+
+
+Create dataframe or matrix for technology
+```{r}
+technology <- unique(data$tech)
+technology
+```
+
+
+#Plotting boxplot
+```{r}
+par(mfrow=c(2,5))
+par(mar=c(5,4,4,2)+0.1)
+
+boxplot(seurat_cell_type_pred_score ~ sample_id, 
+        data=partitions$ddseq, 
+        col= 'cornflowerblue', pch=19, 
+        xlim =c(), ylim=c(0.0, 1.0), 
+        xaxt ='n', main='ddseq', 
+        xlab= 'sample_id', ylab= 'Seurat Score')
+
+boxplot(seurat_cell_type_pred_score ~ sample_id, 
+        data=partitions$mtscatacfacs, col= 'darkorange', pch=19, 
+        xlim =c(), ylim=c(0.0, 1.0), 
+        xaxt ='n', main='mtscatacfacs', 
+        xlab= 'sample_id', ylab= 'Seurat Score')
+
+boxplot(seurat_cell_type_pred_score ~ sample_id, 
+        data=partitions$ '10xmultiome', col= 'darkgreen', pch=19, 
+        xlim =c(), ylim=c(0.0, 1.0), 
+        xaxt ='n', main='10xmultiome', 
+        xlab= 'sample_id', ylab= 'Seurat Score')
+
+
+boxplot(seurat_cell_type_pred_score ~ sample_id, 
+        data=partitions$'10xv11', col= 'deeppink', pch=19, 
+        xlim =c(), ylim=c(0.0, 1.0), 
+        xaxt ='n', main='10xv11', 
+        xlab= 'sample_id', ylab= 'Seurat Score')
+
+boxplot(seurat_cell_type_pred_score ~ sample_id, 
+        data=partitions$'10xv11c', col= 'darkorchid', pch=19, 
+        xlim =c(), ylim=c(0.0, 1.0), 
+        xaxt ='n', main='10xv11c', 
+        xlab= 'sample_id', ylab= 'Seurat Score')
+
+boxplot(seurat_cell_type_pred_score ~ sample_id, 
+        data=partitions$'10xv2', col= 'aquamarine4', pch=19, 
+        ylim=c(0.0, 1.0), 
+        xaxt ='n', main='10xv2', 
+        xlab= 'sample_id', ylab= 'Seurat Score')
+
+boxplot(seurat_cell_type_pred_score ~ sample_id, 
+        data=partitions$hydrop, col= 'blue4', pch=19, 
+        xlim =c(), ylim=c(0.0, 1.0), 
+        xaxt ='n', main='hydrop', 
+        xlab= 'sample_id', ylab= 'Seurat Score')
+
+boxplot(seurat_cell_type_pred_score ~ sample_id, 
+        data=partitions$mtscatac, col= 'darkmagenta', pch=19, 
+        xlim =c(), ylim=c(0.0, 1.0), 
+        xaxt ='n', main='mtscatac', 
+        xlab= 'sample_id', ylab= 'Seurat Score')
+
+boxplot(seurat_cell_type_pred_score ~ sample_id, 
+        data=partitions$'s3atac', col= 'azure4', pch=19, 
+        xlim =c(), ylim=c(0.0, 1.0), 
+        xaxt ='n', main='s3tac', 
+        xlab= 'sample_id', ylab= 'Seurat Score')
+
+boxplot(seurat_cell_type_pred_score ~ sample_id, 
+        data=partitions$'10xv1', col= 'coral2', pch=19, 
+        xlim =c(), ylim=c(0.0, 1.0), 
+        xaxt ='n', main='10xv1', 
+        xlab= 'sample_id', ylab= 'Seurat Score')
+```
+
+

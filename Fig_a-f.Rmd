@@ -1,0 +1,169 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+Download data for Fig_a-e
+```{r}
+data<- read.csv("/Users/sanzidaakhteranee/Documents/HackBio_Contest/Phase_1/Data/untitled folder/fig_One_a_e.dat.csv", header= TRUE, sep = ",")
+print(data)
+```
+
+
+Download data for figure f
+
+```{r}
+data1 <- read.csv ("/Users/sanzidaakhteranee/Documents/HackBio_Contest/fig_one_f.csv", header=TRUE, sep = ",")
+print(data1)
+```
+
+```{r}
+par(mfrow=c(3, 3))
+par(mar=c(4,6,2,1))
+
+#fig_a
+
+plot(0,
+     type = "n",
+     xlim = c(5,40),
+     ylim = c(0,12000),
+     xlab = "Sequencing Depth",
+     ylab = "Unique Fragment in Peaks",
+     main = "Fig 1a",
+     las = 1)
+data_color <- rainbow(10) #colors defined
+technology <- unique(data$tech)
+technology
+
+
+#looping over the number of data
+for (i in 1:10) {
+  subset_data <- data[data$tech == technology[i],]
+  lines(subset_data$depth, 
+        subset_data$Unique_nr_frag_in_regions, 
+        col = data_color[i], lwd =
+          5)}
+#fig_b
+
+plot(0,
+     type = "n",
+     xlim = c(5,40),
+     ylim = c(0,40),
+     xlab = "Sequencing Depth",
+     ylab = "Unique Fragment in Peaks",
+     main = "Fig 1b",
+     las = 1)
+
+data_color <- rainbow(10) #colors defined
+technology <- unique(data$tech)
+technology
+
+#looping over the number of data
+
+for (i in 1:10) {
+  subset_data <- data[data$tech == technology[i],]
+  lines(subset_data$depth, 
+        subset_data$TSS_enrichment, 
+        col = data_color[i], 
+        lwd = 5)}
+
+
+#fig_c
+
+plot(0,
+     type = "n",
+     xlim = c(5,40),
+     ylim = c(.0, .5),
+     xlab = "Sequencing Depth",
+     ylab = "Sequencing Efficiency",
+     main = "Fig 1c",
+     las = 1)
+
+data_color <- rainbow(10) #colors defined
+technology <- unique(data$tech)
+technology
+
+#looping over the  number of data
+
+for (i in 1:10) {
+  subset_data <- data[data$tech == technology[i],]
+  lines(subset_data$depth, 
+        subset_data$X._unique_nr_frag_in_regions_in_cells, 
+        col = data_color[i], 
+        lwd =5)}
+
+
+#fig_d
+
+plot(0,
+     type = "n",
+     xlim = c(5,40),
+     ylim = c(.0, .9),
+     xlab = "Sequencing Depth",
+     ylab = "Median Seurat Score",
+     main = "Fig 1d",
+     las = 1)
+
+data_color <- rainbow(10) #colors defined
+technology <- unique(data$tech)
+technology
+
+#looping over the number of data
+
+for (i in 1:10) {
+  subset_data <- data[data$tech == technology[i],]
+  lines(subset_data$depth, 
+        subset_data$median_cell_type_pred_score, 
+        col = data_color[i], 
+        lwd =
+          5)}
+
+
+#fig_e
+
+plot(0,
+     type = "n",
+     xlim = c(5,40),
+     ylim = c(0, 35),
+     xlab = "Sequencing Depth",
+     ylab = "Bcell Strength(FC)",
+     main = "Fig 1d",
+     las = 1)
+
+data_color <- rainbow(10) #colors defined
+technology <- unique(data$tech)
+technology
+
+#looping over the  number of data
+
+for (i in 1:10) {
+  subset_data <- data[data$tech == technology[i],]
+  lines(subset_data$depth,
+        subset_data$fc__B_cell, 
+        col = data_color[i], 
+        lwd =5)}
+
+#fig_f (scatter plot)
+
+plot(x= data1$Median_Unique_nr_frag_in_regions, 
+     y= data1$Mean_scrublet_doublet_scores_fragments, 
+     col=factor(data1$technology), 
+     pch=19, 
+     xlim= c(0, 12000), 
+     ylim= c(0.08, 0.20), 
+     main= 'Fig 1f', 
+     xlab='Median Unique Fragment', 
+     ylab='Median Scrublet Score')
+
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+

@@ -1,0 +1,208 @@
+---
+title: "SNP and Genetic Variation"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+Download data
+```{r}
+data <- read.csv ('/Users/sanzidaakhteranee/Documents/HackBio_Contest/Phase_2/Data.csv', header=TRUE, sep =',')
+print(data)
+```
+
+General statistics
+```{r}
+#one sample t-test for minor allele frequency  
+t.test (data$EFFECT_ALLELE_FREQ, value=0.01, alternative ='greater')
+```
+
+#Report: general statistics
+
+Null Hypothesis = SNP p value = 0.01
+Alt Hypothesis  = height variability >0.01
+so, p value less than 0.01 means we can reject null hypothesis and accept alternative hypothesis
+
+
+SNP significant p value over all populations
+```{r}
+SNP = unique(data$SNPID) #split data based on SNPID
+
+new_data <- data.frame() #create new data frame
+
+for (i in SNP){ 
+  subset_data <- data[data$SNPID == i, ] # create subset_data for looping SNPID iteration
+  if (!any(is.na(subset_data$P)) && !any(is.na(subset_data$EFFECT_ALLELE_FREQ))) {
+    if (any(subset_data$P < 0.01) && any(subset_data$EFFECT_ALLELE_FREQ > 0.01)){ 
+      new_data <- rbind(new_data, subset_data) # combind two data together
+    } }
+} 
+print(new_data) 
+View(new_data)
+```
+
+#Report for SNP p value
+
+From above code, it shows total 2281 observations that are significantly different SNP among all super populations
+
+
+Data partitions among 5 different populations
+```{r}
+partitions <- split(data, data$ANCESTRY)
+print(partitions)
+```
+
+PCA analysis for EUROPEAN populations
+```{r}
+population=partitions$EUROPEAN
+population
+
+my_data <- data.frame (geno=data$EFFECT_ALLELE, pop='population')
+my_data
+my_data <- matrix(rnorm(2500), ncol =2)
+
+# Perform PCA
+pca_result <- prcomp(my_data, scale. = TRUE)
+
+# Summary of PCA results
+summary(pca_result)
+
+# Biplot for visualization
+biplot(pca_result)
+```
+
+PCA analysis for AFRICAN populations
+```{r}
+population=partitions$AFRICAN
+population
+
+my_data <- data.frame (geno=data$EFFECT_ALLELE, pop='population')
+my_data
+my_data <- matrix(rnorm(2500), ncol =2)
+
+# Perform PCA
+pca_result <- prcomp(my_data, scale. = TRUE)
+
+# Summary of PCA results
+summary(pca_result)
+
+# Biplot for visualization
+biplot(pca_result)
+```
+
+
+PCA analysis for SOUTH ASIA populations
+```{r}
+population=partitions$SOUTH_ASIA
+population
+
+my_data <- data.frame (geno=data$EFFECT_ALLELE, pop='population')
+my_data
+my_data <- matrix(rnorm(2500), ncol =2)
+
+# Perform PCA
+pca_result <- prcomp(my_data, scale. = TRUE)
+
+# Summary of PCA results
+summary(pca_result)
+
+# Biplot for visualization
+biplot(pca_result)
+```
+
+
+PCA analysis for EAST ASIA populations
+```{r}
+population=partitions$EAST_ASIA
+population
+
+my_data <- data.frame (geno=data$EFFECT_ALLELE, pop='population')
+my_data
+my_data <- matrix(rnorm(2500), ncol =2)
+
+# Perform PCA
+pca_result <- prcomp(my_data, scale. = TRUE)
+
+# Summary of PCA results
+summary(pca_result)
+
+# Biplot for visualization
+biplot(pca_result)
+```
+
+PCA analysis for HISPANIC populations
+```{r}
+population=partitions$HISPANIC
+population
+
+my_data <- data.frame (geno=data$EFFECT_ALLELE, pop='population')
+my_data
+my_data <- matrix(rnorm(2500), ncol =2)
+
+# Perform PCA
+pca_result <- prcomp(my_data, scale. = TRUE)
+
+# Summary of PCA results
+summary(pca_result)
+
+# Biplot for visualization
+biplot(pca_result)
+```
+
+# PCA analysis
+Principal component analysis (PCA), is a statistical procedure that allow to summarize the information from large data set by following the reduction dimentionality, where the data from large datasets represented in a small summary indices. 
+
+By Principal Component Analysis (PCA) can be used to describe genetic variability in large-scale genomics datasets. PCA is a dimensionality reduction technique that identifies patterns and structure in high-dimensional data. In case of genetics, PCA is often applied to explore and visualize the underlying structure of genetic variation within a large number of population.
+
+# PCA is used to describe genetic variability by following ways: 
+
+1. Dimensionality Reduction: In genomics, data sets can be high-dimensional, with each dimension representing a genetic variant like SNPs. PCA reduces this high-dimensional data to a smaller number of principal components (PCs), which are linear combinations of the original genetic variants.
+
+2. Exploration of Population Structure: PCA can reveal patterns of population structure and relatedness. Individuals from the same population or with similar genetic backgrounds tend to cluster together in the PCA plot, providing insights into the genetic relationships within and between populations.
+
+3. Visualization of Population Diversity: By plotting individuals or populations based on their scores on the principal components, we can visually assess the genetic diversity present in the dataset. 
+
+
+# Report EUROPEAN population genetic variability 
+
+In case of European population, the proportion of variance in PC1 is 0.5026, where the African, South Asia, East Asia, and Hispanic's are 0.5086, 0.5129, 0.5071, and 0.5254 accordingly.
+
+In shows that the European populations have different variability than other populations although they are very closely related. Hispanic shows the highest while European population shows lower than other populations.
+
+#Does this provide enough argument for increasing the diversity of sequencing projects
+
+Yes, genetic variability is a key factor contributing to the diversity observed in sequencing projects. Genetic variability refers to the presence of genetic differences, such as Single Nucleotide Polymorphisms (SNPs), insertions, deletions, and many other genetic variations, within a population.
+
+In sequencing projects, especially in the context of whole-genome sequencing (WGS), the level of genetic variability captured can greatly influence the diversity of the data. The genetic variability contributes to diversity in sequencing projects by couple of ways:
+
+1. Population Diversity: The level of genetic variability is often higher in populations with greater genetic diversity. Sequencing projects involving samples from diverse populations or species will inherently shows a broader range of genetic variations.
+
+2. Identification of Variants: Sequencing projects aim to identify and listed genetic variants within the sequenced genomes. The presence of diverse variants contributes to the overall genetic diversity observed in the dataset.
+
+3. Evolutionary Studies: Genetic variability is fundamental to evolutionary studies. Sequencing projects that explore the genomes of different species or populations over time can reveal insights into the genetic changes underlying evolution.
+
+
+4. Functional Genomics: Genetic variability contributes to the diversity of functional elements within the genome, including coding regions, non-coding regions, and regulatory elements. This diversity is important for understanding gene function and regulation.
+
+In summary, the level of genetic variability is a major determinant of the diversity observed in sequencing projects. 
+
+
+
+
+
+#References
+
+1. Data used: Yengo, L., Vedantam, S., Marouli, E. et al. A saturated map of common genetic variants associated with human height. Nature 610, 704–712 (2022). https://doi.org/10.1038/s41586-022-05275-y
+
+2. Code source: google, chatgpt
+3. Writing source: google 
+ 
+ 
+ 
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+

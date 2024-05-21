@@ -1,0 +1,74 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+
+Download data for fig_g
+```{r}
+df<- read.csv("/Users/sanzidaakhteranee/Documents/HackBio_Contest/Phase_1/Data/fig_one_g.csv")
+print(df)
+```
+
+Download data for fig_h
+```{r}
+df_1<- read.csv("//Users/sanzidaakhteranee/Documents/HackBio_Contest/Phase_1/Data/fig_one_h.csv")
+print(df_1)
+```
+
+download data for fig i 
+```{r}
+df_2<- read.csv("/Users/sanzidaakhteranee/Documents/HackBio_Contest/Phase_1/Data/fig_one_i.csv")
+print(df_2)
+```
+
+Plotting scatter plot
+```{r}
+par(mfrow=c(2,2)) # keep all figure together
+par(mar=c(4,6,2,1))
+
+#Fig_1g
+
+plot(x= df$Median_unique_nr_frag, 
+     y= df$fmx_delta_donor_llk, 
+     col=factor(df$technology), pch=19, 
+     xlim= c(0, 25000), 
+     ylim= c(0, 400), 
+     main= 'Fig 1g', 
+     xlab='Median Unique Fragment', 
+     ylab='Median Freemuxlet ')
+
+#Fig_1h
+
+plot(x= df_1$log_median_unique_nr_frag_in_regions, 
+     y= df_1$seurat_score, 
+     col=factor(df_1$technology), pch=19,
+     xlim= c(2.5, 4), 
+     ylim= c(.4, .9), 
+     main= 'Fig 1h', 
+     xlab='Median Seurat Score', 
+     ylab='Median Unique Fragment')
+
+#Fig_i
+
+plot(x= df_2$Median_tss_enrichment, 
+     y= df_2$Median_frip, 
+     col=factor(df_2$technology), pch=19,
+     xlim= c(5, 35),
+     ylim= c(.1, .7), 
+     main= 'Fig 1i', 
+     xlab='Median TSS Enrichment', 
+     ylab='Median FRIP')
+
+
+
+```
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
